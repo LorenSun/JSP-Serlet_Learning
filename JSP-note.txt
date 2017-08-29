@@ -1,0 +1,247 @@
+﻿1、Web应用程序
+  Web与应用程序是一种可以通过Web访问的应用程序。
+2、静态网页与动态网页
+  静态网页
+  表现形式：网页中的内容是固定的，不会更新
+  动态网页
+  表现形式：网页中的内容通过程序动态展示的，自动更新。
+3、tomcat服务器的目录结构：
+  /bin ：存放各种平台下启动和停止tomcat的命令文件，如startup.bat，shutdown.bat
+  /conf：存放tomcat的各种配置文件
+  /lib：存放tomcat服务器所需的各种jar文件
+  /log：存放在tomcat的日志文件
+  /temp：tomcat运行时用于存放临时文件
+  /webapps：当发布web应用时，默认会将web应用的文件发布到此目录中
+  /work：tomcat把由jsp生成的servlet放在此目录下
+4、编写第一个Web程序
+  1）在Webapps创建项目目录
+  2）编写index.jsp
+  3）创建WEB-INF目录
+  4）测试运行
+5、WEB-INF目录结构
+1）它是java的web应用的安全目录。所谓安全就是客户端无法访问，只有服务端可以访问的目录。
+2）web.xml项目部署文件。
+3）classes文件夹，用以防止*.class文件
+4）lib文件夹，用于存放需要的jar包。
+  WEB-INF中配置web.xml文件，添加
+  <welcome-file-list>
+  <welcome-file>
+  设定的首页文件名
+  <welcome-file>
+  <welcome-fiel-list>
+
+JSP(Java Server Page)基础语法
+  其根本是一个简化的Servlet设计，实现在java中使用html标签，与Servlet一样
+是在服务器端执行的。
+  页面元素构成：静态内容、指令、表达式、小脚本、声明、注释
+  1、Jsp指令
+  page指令、include指令、taglib指令
+  page指令语法
+  <%@ page 属性1=“属性值” 属性2="属性值1，属性值2">...属性n="属性值n"%>【图】
+  <%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8"%>
+  2、Jsp注释
+  <!--HTML注释--> //客户端可见
+  <%--JSP注释--%> //客户端不可见
+  //单行注释
+  /**/多行注释
+  3、Jsp脚本
+  在JSP页面中执行的代码。
+  <%脚本%>
+  4、Jsp声明
+  在JSP页面中定义变量或者方法。
+  语法
+  <%!Java代码%>
+  5、Jsp表达式
+  在Jsp页面中执行的表达式
+  <%=表达式%> //注意：表达式不以分号结束
+  6、Jsp基础语法
+    JSP页面的生命周期
+      jspService()方法被调用来处理客户端的请求，对每一个请求，JSP引擎创建一个新的线程来处理该请求。
+      如果有多个客户端同时请求该JSP文件，则JSP引擎会创建多个线程。每个客户请求对应一个线程。
+
+      第一次请求一个jsp页面时，首先被执行的方法是构造方法。
+  <body>
+  <%!	//打印九九乘法表
+    //通过表达式来调用
+    String printfTable1()
+    {
+      String s = "";
+      for(int i =1;i<=9;i++){
+        for(int j =1;j<=i;j++){
+          s+=i+"*"+j+"="+(i*j)+"&nbsp;&nbsp;&nbsp;&nbsp;";
+          }
+          s+="<br>";	//换行标签
+        }
+      return s;
+    }
+    //jsp内置out对象，使用脚本方式调用
+    void printfTable2(JspWriter out)throws Exception
+    {
+    for(int i =1;i<=9;i++){
+        for(int j =1;j<=i;j++){
+          out.println("*"+j+"="+(i*j)+"&nbsp;&nbsp;&nbsp;&nbsp;");
+          }
+          out.println("<br>");	//换行标签
+        }
+    }
+   %>
+  <h1>九九乘法表</h1>
+  <hr>
+  <%= printfTable1() %>
+  <br>
+  <%	printfTable2(out); %>
+</body>
+
+7、JSP内置对象
+  JSP内置对象是Web容器创建的一组对象，不使用new关键就可以使用的内置对象。
+    常用JSP内置对象：out、request\response、session、appilcation、
+    其他(page,exception,application,config,pagecontext)
+
+  out对象
+  out对象时JspWriter类的实例，是向客户端输出内容常用的对象。
+  常用方法
+  1、void println() 向客户端打印字符串
+  2、void clear() 清除缓冲区的内容，如果在flush之后调用会抛出异常
+  3、void clearBuffer(); 清除缓冲区的内容，如果在flush之后调用不会抛出异常
+  4、void flush() 将缓冲区内容输出到客户端
+  5、int getBufferSize()返回缓冲区字节数的大小
+  6、int getRemaining()返回缓冲区剩余多少可用
+  7、boolean isAutoFlush() 返回缓冲区满时，是自动清空还是抛出异常
+  8、void close() 关闭输出流
+
+  get与post的区别(提交方式)
+  <form name = "regForm" action = "动作" method = "提交方式"></form>
+  get:以明文的方式通过URL提交数据，数据在URL中可以看到，提交的数据不超过2KB，安全性低，效率高。
+  post:将用户提交的信息封装在HTML HEADER内，适合提交量大，安全性高的用户信息。
+
+  request对象
+    客户端的请求信息被封锁在request对象中，通过它才能了解到客户的需求，然后做出响应。
+    它是HttpServletRequest类的实例。request对象具有请求域，即完成客户端的请求之前，
+    该对象一直有效。
+    常用方法
+    1、String getParameter(String name)返回name指定参数的参数值
+    2、String [] getParameterValues(String name)返回包含参数name的所有值的数组
+    3、void setAttribute(String,Object);存储此请求中的属性
+    4、object getAttribute(String name)返回指定属性的属性值
+    5、String getContentType()得到请求体的MIME类型
+    6、String getProtocol()返回请求用的协议类型及版本号
+    7、String getServerName()返回接受请求的服务器主机名
+    8、String getProtocol() 返回请求用的协议类型及版本号
+    9、String setCharacterEncoding() 设置请求的字符编码方式
+    10、String getCharacterEncoding() 返回字符编码方式
+    11、int getContentLength() 返回请求体的长度（以字节数）
+    12、String getRemoteAddr() 返回发送此请求的客户端IP地址
+    13、String getRealPath(String path) 返回一虚拟路径的真实路径
+    14、String request.getContextPath() 返回上下文路径
+
+    request.setCharacterEncoding("utf-8"); //解决中文乱码问题，无法解决URL
+    传递中文出现的乱码问题。
+  reponse对象
+    response对象包含了响应客户请求的有关信息，但在JSP中很少直接用到它。它是HttpServletResponse类的实例。
+    常用方法
+    1、String getCharacterEncoding() 返回响应用的是何种字符编码
+    2、ServletOutputStream getOutputStream() 返回响应的一个二进制输出流
+    3、PrintWriter getWriter() 返回可以向客户端输出字符的一个对象 （比较PrintWriter与out对象的区别）
+    输出的内容总是在最前面打印，提前与内置的out对象。可以利用out.flush();强制将缓存区的内容输出。
+    4、void setContentLength(int len) 设置响应头长度
+    5、void setContentType(String type) 设置响应的MIME类型
+    6、sendRedirect(java.lang.String location) 重新定向客户端的请求
+      (//若调用方法flush(),close()..则会抛出异常)
+  请求转发与请求重定向的区别
+    请求重定向：客户端行为，response.sendRedirect(),从本质上个讲等同于两次请求，前一次的请求对象不会保存，
+              地址栏的URL地址会改变。
+    请求转发：服务器行为，request.getRequestDispatcher().forward(req,resp);是一次请求，转发后请求对象会
+            保存，地址栏的URL地址不会改变。
+  session对象（在服务器内卒中保存着不同用户的Sessio）
+    session表示客户端与服务器的一次对话
+      Web中的sessio指的是用户在浏览某个网站时，从进入网站到浏览器关闭所经过的这段时间，也就是用户浏览这个网站所
+        花费的时间
+      从上述定义一种可以看到，session实际上是一个特定的时间概念
+      session对象
+      1、session对象是一个JSP内置对象
+      2、seesion对象在第一个JSP页面被装载时自动创建，完成会话管理。
+      3、从一个客户打开浏览器并连接到服务器开始，到客户关闭浏览器离开这个服务期结束，被称为一个会话。
+      3、当一个客户访问一个服务器时，可能会在服务器的几个页面之间切换，服务器应当通过某种方法知道这是一个客户，
+      就需要session对象。
+      4、session对象是HttpSession类的实例。
+      1. Object getAttribute( String name )
+      获取指定名字name相联系的信息．
+
+      1、long getCreationTime()返回Session被创建的时间．最小单位为千分之一秒．
+      2、String getId()
+      此方法返回惟一的标识，这些标识为每个Session而产生．当只有一个单一的值与一个Session联合时，
+      或当日志信息与先前的Session有关时，它被当做键名用．
+      3、Object getAttribute(String name)返回此会话中的指定名称绑定在一起的对象，如果没有对象绑定在该名称下，返回null
+      4、Object setAttribute(String name,Object value)使用指定名称将对象绑定到此会话
+      5、String[] getValueNames()返回一个包含此SESSION中所有可用属性的数组
+      6、int getMaxInactiveInterval()返回两次请求间隔多长时间此SESSION被取消（单位：秒）
+      application对象
+      实现了用户间数据的共享，可存放全局变量。
+      开始于服务器的启动，终止于服务器的关闭。
+      在用户的前后连接或不同用户之间的连接中，可以对application对象的同一属性进行操作。
+      任何地方对application对象属性的操作，都将影响到其他用户对此的访问。
+      服务器的启动和关闭决定了application对象的声明。
+      application对象是ServletContext类的实例。
+      常用方法：
+      1、Object getAttribute(String name)返回此会话中的指定名称绑定在一起的对象，如果没有对象绑定在该名称下，返回null
+      2、Object setAttribute(String name,Object value)使用指定名称将对象绑定到此会话
+      3、Enumeration getAttributeNames()返回所有可用属性名的枚举
+      4、String getServerInfo() 返回JSP(SERVLET)引擎名及版本号
+
+      page对象
+        page对象有点类似于Java编程中的this指针，就是指当前JSP页面本身。
+        page是java.lang.Object类的对象。page对象在实际开发过程中并不经常使用。
+        常用方法
+	      1、class getClass()：返回当时Object的类。
+        2、int hashCode()：返回此时Object的哈希代码。
+        3、boolean equals(Object obj)判断此Object是否与指定Object相等。
+        4、String toString()：将此时的Object类转换成字符串。
+        5、equals(Object ob)：比较此对象是否与指定的对象相等。
+        6、void copy(Object ob)：将此对象复制到指定的对象中。
+        7、Object clone()：对此对象进行克隆。
+        8、void notify()唤醒一个等待的线程
+        9、void notifyAll()唤醒所有等待的线程
+        10、void wait(int timeout)使一个线程处于等待直到timeout结束或者被唤醒
+        11、void wait()使一个线程处于等待直到被唤醒
+        pageContext对象
+            pageContext内置对象是一个比较特殊的对象，它相当于页面中所有其他对象功能的最大集成者，即使用它可以访问到本页面中所有其他的对象，例如前面已经描述的request、response、out和page对象等。由于在JSP中request和response等对象本来就可以通过直接调用方法使用，所以pageContext对象在实际JSP开发中很少使用到。
+        常用方法
+         getRequest()：返回当前页面中的request对象。
+         getResponse()：返回当前页面中的response对象。
+         getSession()：返回当前页面中的session对象。
+         getServletContext()：返回当前页面中的application对象。
+         getPage()：返回当前页面中的page对象。
+         getOut()：返回当前页面中的out对象。
+         getException()：返回当前页面中的exception对象。
+         getServletConfig()：返回当前页面中的config对象。
+         setAttribute(String name)：给指定的属性名设置属性值。
+         getAttribute(String naem)：根据属性名找到相应的属性值。
+         setAttribute(String name, Object obj, int scope)：在给定的范围内设置相应的属性值。
+         getAttribute(String name, int scope)：在给的范围内获取相应的属性值。
+         findAttribute(String name)：寻找一个属性并返回，如果查找不到则返回null。
+         removeAttribute(String name)：通过属性名删除掉某个属性。
+         removeAttribute(String name, int scope)：在指定的某个范围里删除某个属性。
+         getAttributeScope(String name scope)：返回某属性的作用域。
+         getAttributeNamesInScope(int scope)：返回指定范围内的所有属性名的枚举。
+         release()：释放pageContext占据的所有资料。
+         forward(String relativeURLpath)：使用当前页面重导到另一个页面。
+         include(String relativeURLpath)：使用当前位置包含的另一个页面。
+         config对象
+            config内置对象是ServletConfig类的一个实例，用于JSP引擎在Servlet初始化时，通过config向它（Servlet）传递信息。
+            这种信息可以是属性名/值匹配的参数，也可以是通过ServletContext对象传递的服务器的有关信息。一般在JSP开发中行少用到config内置对象，只有在编写Servlet时若需要重载Servlet的init()方法时才会用到。
+        常用方法
+        getServletContext()：返回 一个含有服务器相关信息的ServletContext对象。
+        getIntParameter(String name)：返回初始化参数的值。
+        getIntParameterNames()：返回包含了Servlet初始化所需要的所有参数，返回类型是枚举型。
+        exception对象
+          exception内置对象用来处理页面出现的异常错误，它是java.lang.Throwable类的一个对象。
+          在JSP开发过程中，通常是在某个页面（比如A.jsp）中加入page指令的errorPage属性来将其指向一个
+          专门处理异常错误的页面（doError.jsp）。如果这个错误处理页面doError.jsp已经封装了从A.jsp页面收到
+          的错误信息，并且错误处理页面doError.jsp含有的isErrorpage属性设置为true，
+          则这个错误处理页面可以调用exception内置对象来处理这个些错误信息。
+         常用方法
+        getMessage()和getLocalizedMessage()：这两种方法分别返回exception对象的
+              异常消息字符串和本地化语言的异常错误。
+        printStackTrace()：显示异常的栈跟踪轨迹。
+        toString()：返回关于异常错误的简单消息描述。
+        fillInStackTrace()：重写异常错误的栈执行轨迹。
