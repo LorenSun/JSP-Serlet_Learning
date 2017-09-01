@@ -1,0 +1,73 @@
+采用Model1(java+javabean)实现
+1、实现DBhelper类，操作数据库的工具类
+2、创建实体类
+3、创建业务逻辑类DAO
+4、创建页面层
+如何把浏览记录保存在Cookie中
+把每次浏览的商品编号保存在字符串中，编号和编号之间用分隔符分割，每次取出前五条记录。
+
+Servlet(在服务器上运行的小程序)
+  Get方式请求HelloServlet-><a herf="servlet/HelloServlet">
+  Servlet生命周期
+    1、初始化阶段，调用init()方法。
+    2、相应客户端请求，调用service()方法，由service()方法根据提交方式选择实行doGet()或者doPost()方法。
+    3、终止阶段，调用destroy()方法。
+    在下列时刻Servlet容器装载Servlet：
+    1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中添加代码。
+    <servlet>
+    <loadon-startup>1</loadon-startup>
+    </servlet>
+　　2，在Servlet容器启动后，客户首次向Servlet发送请求。
+　　3，Servlet类文件被更新后，重新装载Servlet。
+    servlet与九大内置对象的对应关系【图5】
+    1.out -----> response.getwriter()
+    2.request -----> service(request)
+    3.response -----> service(response)
+    4.session ------>  request.getsession(）
+    5.application ------> getServletContext()
+    6.exception ----->  Throwable
+    7.Page -----> this
+    8.PageContext -----> PageContext
+    9.Config -----> getServletConfig
+  Servlet路径跳转
+      绝对路径：放之四海而皆准的路径
+      相对路径：相对于当前资源的路径
+  Servlet高级
+    1、获取初始化参数
+      在web.xml中配置Servlet时，可以配置一些初始化参数。
+      而在Servlet中可以通过ServletConfig借口提供的方法来获得这些参数。
+    2、MVC设计模式
+      MVC模式（Model、View、Controller），是软件开发过程中比较流行的设计思想，旨在分离
+      模型、控制、视图。是一种分层思想的体现。
+    3、model2简介
+        javaweb的model2开发模型就是MVC思想的体现
+        JSP（V）      ---提交-->      Servlet（C）---实例化调用-->JavaBean（M） ---读取---> DB
+          |                                |
+          <-根据结果跳转到不同JSP页面--------
+    4、阶段项目
+      使用servlet技术实现购物车的效果
+      MVC模型实现（JSP+Servlet+dao）
+      创建购物车类
+      //总金额
+	     public double calTotalPrice()
+	      {
+		      double sum = 0.0;
+		        Set<Items> keys = goods.keySet();//获得键的集合
+		          Iterator<Items> it = keys.iterator();
+		            while(it.hasNext())
+		              {
+			               Items i = it.next();
+			               sum+=i.getPrice()*goods.get(i);
+		              }
+		          this.setTotalPrice(sum);//设置购物车的总金额
+		          return this.getTotalPrice();
+	       }
+         //遍历商品的集合
+		       Set<Map.Entry<Items, Integer>> items =c.getGoods().entrySet();
+  		       for(Map.Entry<Items, Integer> obj:items)
+		           {
+			            System.out.println(obj);
+		           }
+          Java 中的instanceof 运算符是用来在运行时指出对象是否是特定类的一个实例。
+      编写Servlet
+      创建页面层
