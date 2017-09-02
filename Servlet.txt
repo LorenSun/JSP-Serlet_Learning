@@ -1,4 +1,4 @@
-采用Model1(java+javabean)实现
+﻿采用Model1(java+javabean)实现
 1、实现DBhelper类，操作数据库的工具类
 2、创建实体类
 3、创建业务逻辑类DAO
@@ -71,3 +71,7 @@ Servlet(在服务器上运行的小程序)
           Java 中的instanceof 运算符是用来在运行时指出对象是否是特定类的一个实例。
       编写Servlet
       创建页面层
+
+
+
+https://doubleray.win/2017/02/21/git-connect/
